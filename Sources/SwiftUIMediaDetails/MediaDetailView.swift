@@ -49,6 +49,7 @@ private struct DetailStage: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
+            Color.clear
             DetailArtwork(url: detail.backdropURL ?? detail.artworkURL)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .clipped()
