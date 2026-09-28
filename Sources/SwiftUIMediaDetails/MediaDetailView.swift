@@ -47,23 +47,20 @@ private struct DetailStage: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            DetailArtwork(url: detail.backdropURL ?? detail.artworkURL)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .clipped()
-                .allowsHitTesting(false)
-            LinearGradient(
-                colors: [.clear, .clear, Color(red: 0.10, green: 0.10, blue: 0.10)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            DetailCopy(detail: detail, isPlaying: isPlaying, compact: horizontalSizeClass == .compact, onAction: onAction)
-                .padding(.leading, horizontalSizeClass == .compact ? 24 : 52)
-                .padding(.trailing, 52)
-                .padding(.bottom, horizontalSizeClass == .compact ? 48 : 64)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .clipped()
+        DetailCopy(detail: detail, isPlaying: isPlaying, compact: horizontalSizeClass == .compact, onAction: onAction)
+            .padding(.leading, horizontalSizeClass == .compact ? 24 : 52)
+            .padding(.trailing, 52)
+            .padding(.bottom, horizontalSizeClass == .compact ? 48 : 64)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+            .background {
+                DetailArtwork(url: detail.backdropURL ?? detail.artworkURL)
+                LinearGradient(
+                    colors: [.clear, .clear, Color(red: 0.10, green: 0.10, blue: 0.10)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            }
+            .clipped()
     }
 }
 
