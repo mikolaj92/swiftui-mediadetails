@@ -6,7 +6,7 @@ let package = Package(
     platforms: [.iOS(.v26), .tvOS(.v26), .macOS(.v26)],
     products: [.library(name: "SwiftUIMediaDetails", targets: ["SwiftUIMediaDetails"])],
     dependencies: [
-        .package(path: "../swiftui-medialists"),
+        .package(url: "https://github.com/mikolaj92/swiftui-medialists.git", branch: "main"),
     ],
     targets: [
         .target(
