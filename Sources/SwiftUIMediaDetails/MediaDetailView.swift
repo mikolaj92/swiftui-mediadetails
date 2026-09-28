@@ -27,8 +27,9 @@ public struct MediaDetailView: View {
                         )
                     }
                 }
-                .padding(.vertical)
             }
+            .contentMargins(.top, 0, for: .scrollContent)
+            .ignoresSafeArea(edges: .top)
         }
         .background(Color(red: 0.10, green: 0.10, blue: 0.10))
         .frame(maxWidth: .infinity, maxHeight: .infinity)
