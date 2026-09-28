@@ -15,22 +15,22 @@ public struct MediaDetailView: View {
     }
 
     public var body: some View {
-        GeometryReader { viewport in
-            ScrollView {
-                VStack(alignment: .leading, spacing: 28) {
-                    DetailStage(detail: detail, isPlaying: isPlaying, height: viewport.size.height * 0.72, onAction: onAction)
-                    if !detail.episodes.isEmpty {
-                        MediaShelf(
-                            feed: MediaFeed(id: "episodes", title: "Episodes", kind: .landscape, items: detail.episodes.map(Self.item)),
-                            overlay: { _ in EmptyView() },
-                            onAction: { item, action in if action == .select || action == .play { onAction(.playEpisode(item.id)) } }
-                        )
-                    }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 28) {
+                DetailStage(detail: detail, isPlaying: isPlaying, onAction: onAction)
+                    .containerRelativeFrame(.horizontal) { length, _ in length * 9 / 16 }
+                if !detail.episodes.isEmpty {
+                    MediaShelf(
+                        feed: MediaFeed(id: "episodes", title: "Episodes", kind: .landscape, items: detail.episodes.map(Self.item)),
+                        overlay: { _ in EmptyView() },
+                        onAction: { item, action in if action == .select || action == .play { onAction(.playEpisode(item.id)) } }
+                    )
                 }
             }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .ignoresSafeArea(edges: .top)
+            .padding(.bottom)
         }
+        .contentMargins(.top, 0, for: .scrollContent)
+        .ignoresSafeArea(edges: .top)
         .background(Color(red: 0.10, green: 0.10, blue: 0.10))
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -43,16 +43,15 @@ public struct MediaDetailView: View {
 private struct DetailStage: View {
     var detail: MediaDetail
     var isPlaying: Bool
-    var height: CGFloat
     var onAction: (MediaDetailAction) -> Void
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Color.clear
             DetailArtwork(url: detail.backdropURL ?? detail.artworkURL)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .clipped()
+                .allowsHitTesting(false)
             LinearGradient(
                 colors: [.clear, .clear, Color(red: 0.10, green: 0.10, blue: 0.10)],
                 startPoint: .top,
@@ -63,8 +62,7 @@ private struct DetailStage: View {
                 .padding(.trailing, 52)
                 .padding(.bottom, horizontalSizeClass == .compact ? 48 : 64)
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: max(height, 480))
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .clipped()
     }
 }
