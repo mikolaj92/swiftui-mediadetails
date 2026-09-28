@@ -18,7 +18,7 @@ public struct MediaDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 28) {
                 DetailStage(detail: detail, isPlaying: isPlaying, onAction: onAction)
-                    .containerRelativeFrame(.horizontal) { length, _ in length * 9 / 16 }
+                    .containerRelativeFrame([.horizontal, .vertical]) { length, axis in axis == .horizontal ? length : length * 9 / 16 }
                 if !detail.episodes.isEmpty {
                     MediaShelf(
                         feed: MediaFeed(id: "episodes", title: "Episodes", kind: .landscape, items: detail.episodes.map(Self.item)),
